@@ -66,6 +66,20 @@ let verifyCompleted = (setStudents, proficiencies) => {
   });
 };
 
+function download(filename, text) {
+  text = text.replace(/\n/g, "%0D%0A");
+  var element = document.createElement("a");
+  element.setAttribute("href", "data:text/plain;charset=utf-8," + text);
+  element.setAttribute("download", filename);
+
+  element.style.display = "none";
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
 function App() {
   let [index, setIndex] = useState(0);
   let [students, setStudents] = useState([]);
@@ -200,6 +214,28 @@ function App() {
             </div>
           );
         })}
+        <br />
+        <br />
+        <button
+          onClick={() => {
+            let downloadFile = "";
+
+            Object.keys(students).forEach(id => {
+              let student = students[id];
+              downloadFile += student.name + "\n\n";
+              Object.keys(student.scores).forEach(score => {
+                downloadFile +=
+                  student.scores[score] + " " + proficiencies[score] + "\n\n";
+              });
+              downloadFile += "\n\n\n";
+            });
+
+            download("Student Grades.txt", downloadFile);
+          }}
+        >
+          Download Clean File
+        </button>
+        <button>Save</button>
       </div>
     </div>
   );
