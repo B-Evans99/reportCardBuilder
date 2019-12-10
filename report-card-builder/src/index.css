@@ -21,26 +21,39 @@ code {
   flex-direction: row;
   flex-wrap: wrap;
   min-height:100vh;
+  margin-left:auto;
 }
 
 .main{
   flex:1;
   min-width:700px;
+  flex-grow: 9999;
+  padding:40px 20px;
+}
+
+.squeezed{
+  max-width:1100px;
+  margin:auto;
 }
 
 .sidebar{
-  background: rgb(160, 189, 80);
-  flex:1 1 400px;
+  background: rgb(23, 102, 78);
+  min-width:400px;
+  flex-grow:1;
 }
 
 .proficiency{
   display:flex;
   flex-direction: row;
   padding:10px 7px;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.proficiency input{
+.proficiency input[type="text"]{
   margin:0px 4px;
+  flex:1;
+  padding:7px 10px;
 }
 
 .scores{
@@ -51,14 +64,49 @@ code {
 .bubble{
   display:inline-block;
   border-radius:5px;
-  background:rgb(207, 207, 207);
+  background:rgb(208, 214, 192);
   padding:10px;
   border:none;
   margin:0px 2px;
   
 }
 
-.selected{
-  background:rgb(10, 161, 47)!important;
+.bubble.selected{
+  background:rgb(24, 177, 37)!important;
   color:#fff;
+}
+
+.student{
+  padding:4px 14px;
+}
+
+.student.complete{
+  background:rgb(24, 177, 37);
+  color:#fff;
+}
+
+.addProficiency, .clearProficiency{
+  font-size:30px;
+}
+
+.studentName{
+  font-size:20px;
+  font-weight: bold;
+  background: #ffb444;
+  color:rgb(244, 255, 179);
+  padding:10px 40px;
+  text-shadow: 0px 0px 4px #80441c;
+}
+
+.studentNameChanged{
+  animation: fade 0.4s ease-in-out forwards;
+}
+
+@keyframes fade{
+  0%{
+    background: #fff;
+  }
+  100%:{
+    background: #ffb444;
+  }
 }

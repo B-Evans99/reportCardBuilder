@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
+import { FaPlusSquare, FaMinusSquare } from "react-icons/fa";
 import "./App.css";
 
 let Bubble = ({ selected, select, val }) => {
@@ -39,13 +40,14 @@ let Proficiency = ({ msg, setMsg, clear, id, score, setScore }) => {
         })}
       </div>
       <input
+        placeholder="...add a proficiency"
         type="text"
         value={msg}
         onChange={e => {
           setMsg(e.target.value);
         }}
       />
-      <button onClick={() => clear()}>remove</button>
+      <FaMinusSquare className="clearProficiency" onClick={() => clear()} />
     </div>
   );
 };
@@ -85,7 +87,22 @@ function App() {
   let [students, setStudents] = useState([]);
   let [focus, setFocus] = useState(0);
   let [adding, setAdding] = useState("");
-  let [proficiencies, setProficiencies] = useState({});
+  let [proficiencies, setProficiencies] = useState({ 0: "" });
+
+  useEffect(
+    () => {
+      let studentNames = document.getElementsByClassName("studentName");
+      if (studentNames.length != 0) {
+        let student = document.getElementsByClassName("studentName")[0];
+        console.log("flipping");
+        student.style.animation = "none";
+        setTimeout(() => {
+          student.style.animation = "";
+        }, 30);
+      }
+    },
+    [focus]
+  );
 
   useEffect(
     () => {
@@ -97,84 +114,117 @@ function App() {
   return (
     <div className="box">
       <div className="main">
-        <h1>Hello Fahzher</h1>
-        {students.length > 0
-          ? <div>
-              {students[focus].name}
-              <button
-                onClick={() => {
-                  setFocus(focus => {
-                    if (focus + 1 > students.length - 1) return 0;
-                    return (focus += 1);
-                  });
-                }}
-              >
-                NEXT
-              </button>
+        <div className="squeezed">
+          <h1>Hello Fahzher</h1>
+          {students.length > 0
+            ? <div>
+                <div className="studentName studentNameChanged">
+                  {students[focus].name}
+                </div>
+                <button
+                  onClick={() => {
+                    setFocus(focus => {
+                      focus += 1;
 
-              {Object.keys(proficiencies).map(id => {
-                return (
-                  <Proficiency
-                    key={id}
-                    id={id}
-                    setScore={val => {
-                      setStudents(students => {
-                        students[focus].scores[id] = val;
+                      if (focus > students.length - 1) {
+                        focus = 0;
+                      }
 
-                        Object.keys(students).forEach(student => {
-                          let complete = true;
-                          Object.keys(proficiencies).forEach(id => {
-                            if (
-                              !Object.keys(students[student].scores).includes(
-                                id
-                              )
-                            ) {
-                              complete = false;
-                            }
+                      if (students[focus] == undefined) {
+                        return 0;
+                      }
+
+                      return focus;
+                    });
+                  }}
+                >
+                  NEXT
+                </button>
+
+                {Object.keys(proficiencies).map((id, i) => {
+                  return (
+                    <Proficiency
+                      key={id}
+                      id={id}
+                      setScore={val => {
+                        setStudents(students => {
+                          if (students[focus].scores[id] == val) {
+                            delete students[focus].scores[id];
+                          } else {
+                            students[focus].scores[id] = val;
+                          }
+                          Object.keys(students).forEach(student => {
+                            let complete = true;
+                            Object.keys(proficiencies).forEach(id => {
+                              if (
+                                !Object.keys(students[student].scores).includes(
+                                  id
+                                )
+                              ) {
+                                complete = false;
+                              }
+                            });
+                            students[student]["complete"] = complete;
                           });
-                          students[student]["complete"] = complete;
+
+                          return JSON.parse(JSON.stringify(students));
                         });
 
-                        return JSON.parse(JSON.stringify(students));
-                      });
-                    }}
-                    score={
-                      Object.keys(students[focus].scores).includes(id)
-                        ? students[focus].scores[id]
-                        : -1
-                    }
-                    msg={proficiencies[id]}
-                    setMsg={newVal => {
+                        if (i == Object.keys(proficiencies).length - 1) {
+                          setFocus(focus => {
+                            focus += 1;
+
+                            if (focus > students.length - 1) {
+                              focus = 0;
+                            }
+
+                            if (students[focus] == undefined) {
+                              return 0;
+                            }
+
+                            return focus;
+                          });
+                        }
+                      }}
+                      score={
+                        Object.keys(students[focus].scores).includes(id)
+                          ? students[focus].scores[id]
+                          : -1
+                      }
+                      msg={proficiencies[id]}
+                      setMsg={newVal => {
+                        setProficiencies(proficiencies => {
+                          proficiencies[id] = newVal;
+                          return JSON.parse(JSON.stringify(proficiencies));
+                        });
+                      }}
+                      clear={() => {
+                        setProficiencies(proficiencies => {
+                          delete proficiencies[id];
+                          return JSON.parse(JSON.stringify(proficiencies));
+                        });
+                      }}
+                    />
+                  );
+                })}
+                <div className="proficiency">
+                  <FaPlusSquare
+                    className="addProficiency"
+                    onClick={() => {
+                      console.log(index);
                       setProficiencies(proficiencies => {
-                        proficiencies[id] = newVal;
-                        return JSON.parse(JSON.stringify(proficiencies));
-                      });
-                    }}
-                    clear={() => {
-                      setProficiencies(proficiencies => {
-                        delete proficiencies[id];
+                        proficiencies[index] = "";
+                        setIndex(index => {
+                          return index + 1;
+                        });
                         return JSON.parse(JSON.stringify(proficiencies));
                       });
                     }}
                   />
-                );
-              })}
-              <button
-                onClick={() => {
-                  console.log(index);
-                  setProficiencies(proficiencies => {
-                    proficiencies[index] = "";
-                    setIndex(index => {
-                      return index + 1;
-                    });
-                    return JSON.parse(JSON.stringify(proficiencies));
-                  });
-                }}
-              >
-                add new proficiency
-              </button>
-            </div>
-          : ""}
+                </div>
+              </div>
+            : ""}
+        </div>
       </div>
       <div className="sidebar">
         <input
@@ -205,7 +255,7 @@ function App() {
         {Object.keys(students).map(id => {
           return (
             <div
-              style={students[id].complete ? { background: "#4a7" } : {}}
+              className={"student " + (students[id].complete ? "complete" : "")}
               onClick={() => {
                 setFocus(id);
               }}
@@ -225,7 +275,10 @@ function App() {
               downloadFile += student.name + "\n\n";
               Object.keys(student.scores).forEach(score => {
                 downloadFile +=
-                  student.scores[score] + " " + proficiencies[score] + "\n\n";
+                  student.scores[score] +
+                  "    " +
+                  proficiencies[score] +
+                  "\n\n";
               });
               downloadFile += "\n\n\n";
             });
@@ -235,7 +288,6 @@ function App() {
         >
           Download Clean File
         </button>
-        <button>Save</button>
       </div>
     </div>
   );
