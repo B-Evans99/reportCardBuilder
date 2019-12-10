@@ -83,7 +83,7 @@ function download(filename, text) {
 }
 
 function App() {
-  let [index, setIndex] = useState(0);
+  let [index, setIndex] = useState(1);
   let [students, setStudents] = useState([]);
   let [focus, setFocus] = useState(0);
   let [adding, setAdding] = useState("");
