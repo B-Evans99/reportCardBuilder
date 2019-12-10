@@ -37,9 +37,11 @@ code {
 }
 
 .sidebar{
-  background: rgb(23, 102, 78);
+  background: rgb(133, 201, 24);
   min-width:400px;
   flex-grow:1;
+  display:flex;
+  flex-direction: column;
 }
 
 .proficiency{
@@ -94,8 +96,25 @@ code {
   font-weight: bold;
   background: #ffb444;
   color:rgb(244, 255, 179);
-  padding:10px 40px;
   text-shadow: 0px 0px 4px #80441c;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.studentName span{
+  padding:0px 80px;
+}
+
+.studentName button{
+  color:#fff;
+  background:transparent;
+  border:none;
+  padding:20px 50px;
+}
+
+.studentName button:hover{
+  cursor: pointer;
 }
 
 .studentNameChanged{
@@ -106,7 +125,25 @@ code {
   0%{
     background: #fff;
   }
-  100%:{
+  100%{
     background: #ffb444;
   }
+}
+
+.download{
+  flex:1;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom:150px;
+}
+
+.download button{
+  padding:20px 0px;
+  background:#fff;
+  width:40%;
+  border:none;
+  font-size:20px;
+  border-radius:10px;
 }

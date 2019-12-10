@@ -119,27 +119,30 @@ function App() {
           {students.length > 0
             ? <div>
                 <div className="studentName studentNameChanged">
-                  {students[focus].name}
+                  <span>
+                    {students[focus].name}
+                  </span>
+
+                  <button
+                    onClick={() => {
+                      setFocus(focus => {
+                        focus += 1;
+
+                        if (focus > students.length - 1) {
+                          focus = 0;
+                        }
+
+                        if (students[focus] == undefined) {
+                          return 0;
+                        }
+
+                        return focus;
+                      });
+                    }}
+                  >
+                    NEXT
+                  </button>
                 </div>
-                <button
-                  onClick={() => {
-                    setFocus(focus => {
-                      focus += 1;
-
-                      if (focus > students.length - 1) {
-                        focus = 0;
-                      }
-
-                      if (students[focus] == undefined) {
-                        return 0;
-                      }
-
-                      return focus;
-                    });
-                  }}
-                >
-                  NEXT
-                </button>
 
                 {Object.keys(proficiencies).map((id, i) => {
                   return (
@@ -171,19 +174,21 @@ function App() {
                         });
 
                         if (i == Object.keys(proficiencies).length - 1) {
-                          setFocus(focus => {
-                            focus += 1;
+                          setTimeout(() => {
+                            setFocus(focus => {
+                              focus += 1;
 
-                            if (focus > students.length - 1) {
-                              focus = 0;
-                            }
+                              if (focus > students.length - 1) {
+                                focus = 0;
+                              }
 
-                            if (students[focus] == undefined) {
-                              return 0;
-                            }
+                              if (students[focus] == undefined) {
+                                return 0;
+                              }
 
-                            return focus;
-                          });
+                              return focus;
+                            });
+                          }, 500);
                         }
                       }}
                       score={
@@ -266,28 +271,30 @@ function App() {
         })}
         <br />
         <br />
-        <button
-          onClick={() => {
-            let downloadFile = "";
+        <div className="download">
+          <button
+            onClick={() => {
+              let downloadFile = "";
 
-            Object.keys(students).forEach(id => {
-              let student = students[id];
-              downloadFile += student.name + "\n\n";
-              Object.keys(student.scores).forEach(score => {
-                downloadFile +=
-                  student.scores[score] +
-                  "    " +
-                  proficiencies[score] +
-                  "\n\n";
+              Object.keys(students).forEach(id => {
+                let student = students[id];
+                downloadFile += student.name + "\n\n";
+                Object.keys(student.scores).forEach(score => {
+                  downloadFile +=
+                    student.scores[score] +
+                    "    " +
+                    proficiencies[score] +
+                    "\n\n";
+                });
+                downloadFile += "\n\n\n";
               });
-              downloadFile += "\n\n\n";
-            });
 
-            download("Student Grades.txt", downloadFile);
-          }}
-        >
-          Download Clean File
-        </button>
+              download("Student Grades.txt", downloadFile);
+            }}
+          >
+            Download
+          </button>
+        </div>
       </div>
     </div>
   );
