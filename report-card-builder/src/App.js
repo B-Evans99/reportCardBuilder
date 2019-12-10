@@ -2,11 +2,41 @@ import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-let Proficiency = ({ msg, setMsg, clear }) => {
+let Bubble = ({ selected, select, val }) => {
+  return (
+    <button
+      style={selected ? { background: "#fff" } : {}}
+      onClick={() => {
+        select(val);
+      }}
+    >
+      {val}
+    </button>
+  );
+};
+
+let Proficiency = ({ msg, setMsg, clear, id, score, setScore }) => {
+  let [levels, setLevels] = useState([
+    "Exceeding",
+    "Meeting",
+    "Developing",
+    "Emerging"
+  ]);
+
   return (
     <div className="proficiency">
       <div className="scores">
-        <button>at</button>
+        {levels.map(level => {
+          return (
+            <Bubble
+              val={level}
+              selected={score == level}
+              select={val => {
+                setScore(val);
+              }}
+            />
+          );
+        })}
       </div>
       <input
         type="text"
@@ -22,15 +52,50 @@ let Proficiency = ({ msg, setMsg, clear }) => {
 
 function App() {
   let [index, setIndex] = useState(0);
-  let [students, setStudents] = useState({});
+  let [focus, setFocus] = useState(0);
+  let [students, setStudents] = useState([
+    {
+      name: "Benji",
+      scores: {}
+    },
+    {
+      name: "Emma",
+      scores: {}
+    }
+  ]);
   let [proficiencies, setProficiencies] = useState({});
 
   return (
     <div className="App">
       <h1>Hello Fahzher</h1>
+      <input type="text" value={students[focus].name} />
+      <button
+        onClick={() => {
+          setFocus(focus => {
+            if (focus + 1 > students.length - 1) return 0;
+            return (focus += 1);
+          });
+        }}
+      >
+        NEXT
+      </button>
+
       {Object.keys(proficiencies).map(id => {
         return (
           <Proficiency
+            key={id}
+            id={id}
+            setScore={val => {
+              setStudents(students => {
+                students[focus].scores[id] = val;
+                return JSON.parse(JSON.stringify(students));
+              });
+            }}
+            score={
+              Object.keys(students[focus].scores).includes(id)
+                ? students[focus].scores[id]
+                : -1
+            }
             msg={proficiencies[id]}
             setMsg={newVal => {
               setProficiencies(proficiencies => {
