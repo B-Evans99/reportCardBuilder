@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -50,9 +50,24 @@ let Proficiency = ({ msg, setMsg, clear, id, score, setScore }) => {
   );
 };
 
+let verifyCompleted = (setStudents, proficiencies) => {
+  setStudents(students => {
+    Object.keys(students).forEach(student => {
+      let complete = true;
+      Object.keys(proficiencies).forEach(id => {
+        if (!Object.keys(students[student].scores).includes(id)) {
+          complete = false;
+        }
+      });
+      students[student]["complete"] = complete;
+    });
+
+    return JSON.parse(JSON.stringify(students));
+  });
+};
+
 function App() {
   let [index, setIndex] = useState(0);
-  let [focus, setFocus] = useState(0);
   let [students, setStudents] = useState([
     {
       name: "Benji",
@@ -63,7 +78,15 @@ function App() {
       scores: {}
     }
   ]);
+  let [focus, setFocus] = useState(0);
   let [proficiencies, setProficiencies] = useState({});
+
+  useEffect(
+    () => {
+      verifyCompleted(setStudents, proficiencies);
+    },
+    [proficiencies]
+  );
 
   return (
     <div className="App">
@@ -88,6 +111,17 @@ function App() {
             setScore={val => {
               setStudents(students => {
                 students[focus].scores[id] = val;
+
+                Object.keys(students).forEach(student => {
+                  let complete = true;
+                  Object.keys(proficiencies).forEach(id => {
+                    if (!Object.keys(students[student].scores).includes(id)) {
+                      complete = false;
+                    }
+                  });
+                  students[student]["complete"] = complete;
+                });
+
                 return JSON.parse(JSON.stringify(students));
               });
             }}
@@ -126,6 +160,13 @@ function App() {
       >
         add new proficiency
       </button>
+      {Object.keys(students).map(id => {
+        return (
+          <div style={students[id].complete ? { background: "#4a7" } : {}}>
+            {students[id].name}
+          </div>
+        );
+      })}
     </div>
   );
 }
