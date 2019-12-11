@@ -19,7 +19,7 @@ let Bubble = ({ selected, select, val }) => {
 let Proficiency = ({ msg, setMsg, clear, id, score, setScore }) => {
   let [levels, setLevels] = useState([
     "Exceeding",
-    "Meeting",
+    "Proficient",
     "Developing",
     "Emerging"
   ]);
@@ -280,8 +280,15 @@ function App() {
                 let student = students[id];
                 downloadFile += student.name + "\n\n";
                 Object.keys(student.scores).forEach(score => {
+                  let mark = student.scores[score] == "Exceeding" ? "( ) EMG ( ) DEV ( ) PRF (X) EXT"
+                  :student.scores[score] == "Proficient"? "( ) EMG ( ) DEV (X) PRF ( ) EXT"
+                  :student.scores[score] == "Developing"? "( ) EMG (X) DEV ( ) PRF ( ) EXT"
+                  :"(X) EMG ( ) DEV ( ) PRF ( ) EXT"
+
+
+
                   downloadFile +=
-                    student.scores[score] +
+                    mark +
                     "    " +
                     proficiencies[score] +
                     "\n\n";
