@@ -1,1 +1,8 @@
-npm start
+navigate to this directory in the command line
+
+TO RUN
+	> npm start
+
+FOR UPDATES
+	> git pull
+	> npm i
