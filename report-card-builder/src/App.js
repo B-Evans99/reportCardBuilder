@@ -154,6 +154,23 @@ function App() {
                           if (students[focus].scores[id] == val) {
                             delete students[focus].scores[id];
                           } else {
+                            if (i == Object.keys(proficiencies).length - 1) {
+                              setTimeout(() => {
+                                setFocus(focus => {
+                                  focus += 1;
+
+                                  if (focus > students.length - 1) {
+                                    focus = 0;
+                                  }
+
+                                  if (students[focus] == undefined) {
+                                    return 0;
+                                  }
+
+                                  return focus;
+                                });
+                              }, 500);
+                            }
                             students[focus].scores[id] = val;
                           }
                           Object.keys(students).forEach(student => {
@@ -172,24 +189,6 @@ function App() {
 
                           return JSON.parse(JSON.stringify(students));
                         });
-
-                        if (i == Object.keys(proficiencies).length - 1) {
-                          setTimeout(() => {
-                            setFocus(focus => {
-                              focus += 1;
-
-                              if (focus > students.length - 1) {
-                                focus = 0;
-                              }
-
-                              if (students[focus] == undefined) {
-                                return 0;
-                              }
-
-                              return focus;
-                            });
-                          }, 500);
-                        }
                       }}
                       score={
                         Object.keys(students[focus].scores).includes(id)
@@ -280,18 +279,16 @@ function App() {
                 let student = students[id];
                 downloadFile += student.name + "\n\n";
                 Object.keys(student.scores).forEach(score => {
-                  let mark = student.scores[score] == "Exceeding" ? "( ) EMG ( ) DEV ( ) PRF (X) EXT"
-                  :student.scores[score] == "Proficient"? "( ) EMG ( ) DEV (X) PRF ( ) EXT"
-                  :student.scores[score] == "Developing"? "( ) EMG (X) DEV ( ) PRF ( ) EXT"
-                  :"(X) EMG ( ) DEV ( ) PRF ( ) EXT"
+                  let mark =
+                    student.scores[score] == "Exceeding"
+                      ? "( ) EMG ( ) DEV ( ) PRF (X) EXT"
+                      : student.scores[score] == "Proficient"
+                        ? "( ) EMG ( ) DEV (X) PRF ( ) EXT"
+                        : student.scores[score] == "Developing"
+                          ? "( ) EMG (X) DEV ( ) PRF ( ) EXT"
+                          : "(X) EMG ( ) DEV ( ) PRF ( ) EXT";
 
-
-
-                  downloadFile +=
-                    mark +
-                    "    " +
-                    proficiencies[score] +
-                    "\n\n";
+                  downloadFile += mark + "    " + proficiencies[score] + "\n\n";
                 });
                 downloadFile += "\n\n\n";
               });

@@ -78,7 +78,7 @@ code {
   padding:10px;
   border:none;
   margin:0px 2px;
-  
+  cursor: pointer;
 }
 
 .bubble.selected{
@@ -89,8 +89,11 @@ code {
 .student{
   padding:4px 14px;
   margin:4px 13px;
-  background:rgb(255, 242, 121);
+  background:rgb(255, 230, 91);
   border-radius:4px;
+  color:rgb(121, 75, 0);
+  cursor: pointer;
+  max-width: 300px;
 }
 
 .student.complete{
@@ -100,6 +103,15 @@ code {
 
 .addProficiency, .clearProficiency{
   font-size:30px;
+  cursor: pointer;
+}
+
+.clearProficiency{
+  color:rgb(224, 26, 26);
+}
+
+.addProficiency{
+  color:rgb(26, 224, 52);
 }
 
 .studentName{
