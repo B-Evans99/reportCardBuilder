@@ -1,172 +1,194 @@
-html,body,#root{
-  min-height:100vh;
+html,
+body,
+#root {
+  min-height: 100vh;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.box{
-  display:flex;
+.box {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  min-height:100vh;
-  margin-left:auto;
+  min-height: calc(100vh - 100px);
+  margin-left: auto;
 }
 
-.main{
-  flex:1;
-  min-width:700px;
+.footer {
+  min-width: 100%;
+  height: 100px;
+  background: #4e0d31;
+  padding: 20px;
+  box-sizing: border-box;
+  color: rgb(255, 234, 249);
+}
+
+.footer a {
+  color: rgb(255, 129, 217);
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+
+.footer a:hover {
+  text-shadow: 0px 0px 5px rgb(230, 42, 105);
+}
+
+.main {
+  flex: 1;
+  min-width: 700px;
   flex-grow: 9999;
-  padding:40px 20px;
+  padding: 40px 20px;
 }
 
-.squeezed{
-  max-width:1100px;
-  margin:auto;
+.squeezed {
+  max-width: 1100px;
+  margin: auto;
 }
 
-.sidebar{
+.sidebar {
   background: rgb(133, 201, 24);
-  min-width:400px;
-  flex-grow:1;
-  display:flex;
+  min-width: 400px;
+  flex-grow: 1;
+  display: flex;
   flex-direction: column;
 }
 
-.sidebar input[type="text"]{
-  margin:20px 7px;
-  padding:4px 2px;
-  border-radius:4px;
-  border:none;
-  font-size:14px;
+.sidebar input[type="text"] {
+  margin: 20px 7px;
+  padding: 4px 2px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
 }
 
-.proficiency{
-  display:flex;
+.proficiency {
+  display: flex;
   flex-direction: row;
-  padding:10px 7px;
+  padding: 10px 7px;
   justify-content: flex-end;
   align-items: center;
 }
 
-.proficiency input[type="text"]{
-  margin:0px 4px;
-  flex:1;
-  padding:7px 10px;
+.proficiency input[type="text"] {
+  margin: 0px 4px;
+  flex: 1;
+  padding: 7px 10px;
 }
 
-.scores{
+.scores {
   display: flex;
   flex-direction: row;
 }
 
-.bubble{
-  display:inline-block;
-  border-radius:5px;
-  background:rgb(208, 214, 192);
-  padding:10px;
-  border:none;
-  margin:0px 2px;
+.bubble {
+  display: inline-block;
+  border-radius: 5px;
+  background: rgb(208, 214, 192);
+  padding: 10px;
+  border: none;
+  margin: 0px 2px;
   cursor: pointer;
 }
 
-.bubble.selected{
-  background:rgb(24, 177, 37)!important;
-  color:#fff;
+.bubble.selected {
+  background: rgb(24, 177, 37) !important;
+  color: #fff;
 }
 
-.student{
-  padding:4px 14px;
-  margin:4px 13px;
-  background:rgb(255, 230, 91);
-  border-radius:4px;
-  color:rgb(121, 75, 0);
+.student {
+  padding: 4px 14px;
+  margin: 4px 13px;
+  background: rgb(255, 230, 91);
+  border-radius: 4px;
+  color: rgb(121, 75, 0);
   cursor: pointer;
   max-width: 300px;
 }
 
-.student.complete{
-  background:rgb(24, 177, 37);
-  color:#fff;
+.student.complete {
+  background: rgb(24, 177, 37);
+  color: #fff;
 }
 
-.addProficiency, .clearProficiency{
-  font-size:30px;
+.addProficiency,
+.clearProficiency {
+  font-size: 30px;
   cursor: pointer;
 }
 
-.clearProficiency{
-  color:rgb(224, 26, 26);
+.clearProficiency {
+  color: rgb(224, 26, 26);
 }
 
-.addProficiency{
-  color:rgb(26, 224, 52);
+.addProficiency {
+  color: rgb(26, 224, 52);
 }
 
-.studentName{
-  font-size:20px;
+.studentName {
+  font-size: 20px;
   font-weight: bold;
   background: #ffb444;
-  color:rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   text-shadow: 0px 0px 4px #80441c;
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.studentName span{
-  padding:0px 80px;
+.studentName span {
+  padding: 0px 80px;
 }
 
-.studentName button{
-  color:#fff;
-  background:transparent;
-  border:none;
-  padding:20px 50px;
+.studentName button {
+  color: #fff;
+  background: transparent;
+  border: none;
+  padding: 20px 50px;
 }
 
-.studentName button:hover{
+.studentName button:hover {
   cursor: pointer;
 }
 
-.studentNameChanged{
+.studentNameChanged {
   animation: fade 0.4s ease-in-out forwards;
 }
 
-@keyframes fade{
-  0%{
+@keyframes fade {
+  0% {
     background: #fff;
   }
-  100%{
+  100% {
     background: #ffb444;
   }
 }
 
-.download{
-  flex:1;
-  display:flex;
+.download {
+  flex: 1;
+  display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding-bottom:150px;
+  padding-bottom: 150px;
 }
 
-.download button{
-  padding:20px 0px;
-  background:#fff;
-  width:40%;
-  border:none;
-  font-size:20px;
-  border-radius:10px;
+.download button {
+  padding: 20px 0px;
+  background: #fff;
+  width: 40%;
+  border: none;
+  font-size: 20px;
+  border-radius: 10px;
 }

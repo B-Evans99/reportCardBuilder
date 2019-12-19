@@ -82,6 +82,17 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 
+let Footer = () => {
+  return (
+    <div className="footer">
+      Contribute, suggest features, or report bugs on the{" "}
+      <a href="https://github.com/B-Evans99/reportCardBuilder/issues">
+        Github.
+      </a>
+    </div>
+  );
+};
+
 function App() {
   let [index, setIndex] = useState(1);
   let [students, setStudents] = useState([]);
@@ -89,39 +100,31 @@ function App() {
   let [adding, setAdding] = useState("");
   let [proficiencies, setProficiencies] = useState({ 0: "" });
 
-  useEffect(
-    () => {
-      let studentNames = document.getElementsByClassName("studentName");
-      if (studentNames.length != 0) {
-        let student = document.getElementsByClassName("studentName")[0];
-        console.log("flipping");
-        student.style.animation = "none";
-        setTimeout(() => {
-          student.style.animation = "";
-        }, 30);
-      }
-    },
-    [focus]
-  );
+  useEffect(() => {
+    let studentNames = document.getElementsByClassName("studentName");
+    if (studentNames.length != 0) {
+      let student = document.getElementsByClassName("studentName")[0];
+      console.log("flipping");
+      student.style.animation = "none";
+      setTimeout(() => {
+        student.style.animation = "";
+      }, 30);
+    }
+  }, [focus]);
 
-  useEffect(
-    () => {
-      verifyCompleted(setStudents, proficiencies);
-    },
-    [proficiencies]
-  );
+  useEffect(() => {
+    verifyCompleted(setStudents, proficiencies);
+  }, [proficiencies]);
 
   return (
-    <div className="box">
-      <div className="main">
-        <div className="squeezed">
-          <h1>Hello Fahzher</h1>
-          {students.length > 0
-            ? <div>
+    <div className="container">
+      <div className="box">
+        <div className="main">
+          <div className="squeezed">
+            {students.length > 0 ? (
+              <div>
                 <div className="studentName studentNameChanged">
-                  <span>
-                    {students[focus].name}
-                  </span>
+                  <span>{students[focus].name}</span>
 
                   <button
                     onClick={() => {
@@ -227,79 +230,86 @@ function App() {
                   />
                 </div>
               </div>
-            : ""}
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-      </div>
-      <div className="sidebar">
-        <input
-          type="text"
-          value={adding}
-          placeholder="Add a student..."
-          onKeyUp={e => {
-            let key = e.key;
-            if (key == "Enter" && adding.length >= 2) {
-              setStudents(students => {
-                let newStudent = {
-                  name: adding,
-                  scores: {}
-                };
+        <div className="sidebar">
+          <input
+            type="text"
+            value={adding}
+            placeholder="Add a student..."
+            onKeyUp={e => {
+              let key = e.key;
+              if (key == "Enter" && adding.length >= 2) {
+                setStudents(students => {
+                  let newStudent = {
+                    name: adding,
+                    scores: {}
+                  };
 
-                students[students.length] = newStudent;
+                  students[students.length] = newStudent;
 
-                setAdding("");
+                  setAdding("");
 
-                return JSON.parse(JSON.stringify(students));
-              });
-            }
-          }}
-          onChange={e => {
-            setAdding(e.target.value);
-          }}
-        />
-        {Object.keys(students).map(id => {
-          return (
-            <div
-              className={"student " + (students[id].complete ? "complete" : "")}
+                  return JSON.parse(JSON.stringify(students));
+                });
+              }
+            }}
+            onChange={e => {
+              setAdding(e.target.value);
+            }}
+          />
+          {Object.keys(students).map(id => {
+            return (
+              <div
+                className={
+                  "student " + (students[id].complete ? "complete" : "")
+                }
+                onClick={() => {
+                  setFocus(id);
+                }}
+              >
+                {students[id].name}
+              </div>
+            );
+          })}
+          <br />
+          <br />
+          <div className="download">
+            <button
               onClick={() => {
-                setFocus(id);
-              }}
-            >
-              {students[id].name}
-            </div>
-          );
-        })}
-        <br />
-        <br />
-        <div className="download">
-          <button
-            onClick={() => {
-              let downloadFile = "";
+                let downloadFile = "";
 
-              Object.keys(students).forEach(id => {
-                let student = students[id];
-                downloadFile += student.name + "\n\n";
-                Object.keys(student.scores).forEach(score => {
-                  let mark =
-                    student.scores[score] == "Exceeding"
-                      ? "( ) EMG ( ) DEV ( ) PRF (X) EXT"
-                      : student.scores[score] == "Proficient"
+                Object.keys(students).forEach(id => {
+                  let student = students[id];
+                  downloadFile += student.name + "\n\n";
+                  Object.keys(student.scores).forEach(score => {
+                    let mark =
+                      student.scores[score] == "Exceeding"
+                        ? "( ) EMG ( ) DEV ( ) PRF (X) EXT"
+                        : student.scores[score] == "Proficient"
                         ? "( ) EMG ( ) DEV (X) PRF ( ) EXT"
                         : student.scores[score] == "Developing"
-                          ? "( ) EMG (X) DEV ( ) PRF ( ) EXT"
-                          : "(X) EMG ( ) DEV ( ) PRF ( ) EXT";
+                        ? "( ) EMG (X) DEV ( ) PRF ( ) EXT"
+                        : "(X) EMG ( ) DEV ( ) PRF ( ) EXT";
 
-                  downloadFile += mark + "    " + proficiencies[score] + "\n\n";
+                    downloadFile +=
+                      mark + "    " + proficiencies[score] + "\n\n";
+                  });
+                  downloadFile += "\n\n\n";
                 });
-                downloadFile += "\n\n\n";
-              });
 
-              download("Student Grades.txt", downloadFile);
-            }}
-          >
-            Download
-          </button>
+                download("Student Grades.txt", downloadFile);
+              }}
+            >
+              Download
+            </button>
+          </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
