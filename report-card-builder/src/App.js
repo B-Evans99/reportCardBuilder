@@ -263,16 +263,25 @@ function App() {
           />
           {Object.keys(students).map(id => {
             return (
-              <div
+              <input type="text"
+              
                 className={
                   "student " + (students[id].complete ? "complete" : "")
                 }
                 onClick={() => {
                   setFocus(id);
                 }}
-              >
-                {students[id].name}
-              </div>
+              
+              value ={students[id].name}
+              onChange={(e)=>{
+                let newName = e.target.value;
+                setStudents( students => {
+                  students[id].name = newName;
+                  return JSON.parse(JSON.stringify(students));
+
+                }) 
+              }}
+              ></input>
             );
           })}
           <br />
