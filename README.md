@@ -29,5 +29,7 @@ Run ```npm build``` to create a build file. Deploy the contents of the *../build
 ## Authors
 
 * **Bronwen Evans** - *Initial work* - [B-Evans99](https://github.com/B-Evans99)
+* **Shay-Lee Westbrook** - *Initial work* - [ShayWestbrook](https://github.com/ShayWestbrook)
+
 
 Visit [here for a full list of the contributors.](https://github.com/B-Evans99/reportCardBuilder/graphs/contributors)
